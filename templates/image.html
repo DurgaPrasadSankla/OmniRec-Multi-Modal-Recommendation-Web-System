@@ -1,0 +1,57 @@
+{% import 'utility.html' as utl %}
+
+{{utl.htmltop('Image Upload')}}
+{{utl.afterLoginNavbar('Image Upload')}}
+
+<div class="container">
+    <form method="POST" action="{{ url_for('imageUpload') }}" enctype="multipart/form-data">
+        <div class="form-group">
+            <div>
+                <label for="file" class="form-label">Upload Photo </label>
+                <input class="form-control form-control-lg" id="file"  name="file" type="file">
+              </div>
+        </div>
+        <button type="submit" class="btn">Submit</button>
+    </form>
+</div>
+<!-- <div class="containersearch">
+    {% if output is defined and output is not none %}
+<h2>Result:</h2>
+<p>Object in the image:<span> {{ output }} </span></p>
+{%else%}
+<p>Object in the image:<span> No object found </span></p>
+
+{% endif %}
+
+
+</div> -->
+{% if recommendations is defined and recommendations is not none %}
+    <div class="containertable">
+        <h2 style="text-align:center;">Result:<span>{{result}}</span></h2> 
+        <table>
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Product URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, row in recommendations.iterrows() %}
+                    <tr>
+                        <td>{{ row['uniq_id'] }}</td>
+                        <td>{{ row['product_name'] }}</td>
+                        <td><a href="{{ row['product_url'] }}"><button class="btn">URL</button></a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% elif no_data_found %}
+<div class="container">
+    <p>No data found.</p>
+</div>
+   
+{% endif %}
+
+{{ utl.htmlbottom() }}

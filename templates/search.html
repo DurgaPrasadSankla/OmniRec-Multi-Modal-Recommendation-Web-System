@@ -1,0 +1,45 @@
+{% import 'utility.html' as utl %}
+
+{{utl.htmltop('Search')}}
+{{utl.afterLoginNavbar('Search')}}
+
+<div class="container">
+    <form method="POST" action="{{ url_for('search') }}">
+        <div class="form-group">
+            <label for="search">Search</label>
+            <input type="text" class="form-control" id="search" name="search" placeholder="Enter Search">
+        </div>
+        <button type="submit" class="btn">Submit</button>
+    </form>
+</div>
+
+{% if recommendations is defined and recommendations is not none %}
+    <div class="containertable">
+        <table>
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Product URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, row in recommendations.iterrows() %}
+                    <tr>
+                        <td>{{ row['uniq_id'] }}</td>
+                        <td>{{ row['product_name'] }}</td>
+                        <td><a href="{{ row['product_url'] }}"><button class="btn">click here</button></a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% elif no_data_found %}
+    <p>No data found.</p>
+{% endif %}
+
+
+
+
+
+{{ utl.htmlbottom() }}
